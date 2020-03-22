@@ -1,4 +1,3 @@
-#include <dos.h>
 /*
 * 	Play Audio CD digitally on Windows Sound System compatible soundcard
 *	(C) Lefucjusz, Gdansk 03.2020
@@ -13,6 +12,7 @@
 *
 *
 */
+#include <dos.h>
 #include <alloc.h>
 #include <stdio.h>
 #include <stdlib.h>
