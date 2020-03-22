@@ -2,13 +2,13 @@
 #include "buffer.h"
 #include <dos.h>
 
-void wss_wait(void) //WTF is this?
+void wss_wait(void) //Wait until soundcard ready
 {
-	int16_t timeout = 0x2000;
+	int16_t timeout = 0x2000; //Just random big value...
 	while((inp(WSS_INDEX_REG) & WSS_INIT) && (timeout--));
 }
 
-void wss_write_indir(uint8_t indir_addr, uint8_t indir_data)
+void wss_write_indir(uint8_t indir_addr, uint8_t indir_data) //Write to indirect register
 {
 	outp(WSS_INDEX_REG, indir_addr);
 	wss_wait();
@@ -16,7 +16,7 @@ void wss_write_indir(uint8_t indir_addr, uint8_t indir_data)
 	wss_wait();
 }
 
-uint8_t wss_read_indir(uint8_t indir_addr)
+uint8_t wss_read_indir(uint8_t indir_addr) //Read from indirect register
 {
 	outp(WSS_INDEX_REG, indir_addr);
 	return inp(WSS_IDATA_REG);
@@ -39,7 +39,7 @@ void wss_start(void)
 	wss_write_indir(WSS_CTRL_REG, 0x8A); //Mode 1 - legacy WSS
 	wss_write_indir(WSS_MIX_REG, 0x00); //Mute loopback
 	
-	wss_write_indir(WSS_PIN_REG, WSS_IEN); //Enable interrupt pit
+	wss_write_indir(WSS_PIN_REG, WSS_IEN); //Enable interrupt pin
 	
 	wss_write_indir(WSS_LCNT_REG, ((BUFFER_SIZE_BYTES/8) - 1) & 0xFF); //Set interrupt counter
 	wss_write_indir(WSS_UCNT_REG, ((BUFFER_SIZE_BYTES/8) - 1) >> 8);
